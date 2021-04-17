@@ -1,0 +1,274 @@
+package uk.ac.soton.comp1206.scene;
+
+import javafx.geometry.Pos;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import uk.ac.soton.comp1206.Utility.Multimedia;
+import uk.ac.soton.comp1206.component.GameBlock;
+import uk.ac.soton.comp1206.component.GameBoard;
+import uk.ac.soton.comp1206.component.PieceBoard;
+import uk.ac.soton.comp1206.event.NextPieceListener;
+import uk.ac.soton.comp1206.game.Game;
+import uk.ac.soton.comp1206.game.GamePiece;
+import uk.ac.soton.comp1206.ui.GamePane;
+import uk.ac.soton.comp1206.ui.GameWindow;
+
+/**
+ * The Single Player challenge scene. Holds the UI for the single player challenge mode in the game.
+ */
+public class ChallengeScene extends BaseScene {
+
+    private static final Logger logger = LogManager.getLogger(MenuScene.class);
+    protected Game game;
+    protected GameBoard board;
+
+    /**
+     * NextPieceListener to listen to new pieces inside the game.
+     */
+    private NextPieceListener nextPieceListener;
+
+    /**
+     * GamePiece variable to keep track of the current piece to be displayed
+     */
+    private GamePiece currentPiece;
+
+    /**
+     * X coordinate where the piece will be played
+     */
+    private int x;
+
+    /**
+     * Y coordinate where the piece will be played
+     */
+    private int y;
+
+    /**
+     * Create a new Single Player challenge scene
+     * @param gameWindow the Game Window
+     */
+    public ChallengeScene(GameWindow gameWindow) {
+        super(gameWindow);
+        logger.info("Creating Menu Scene");
+    }
+
+    /**
+     * Build the Challenge window
+     */
+    @Override
+    public void build() {
+        logger.info("Building " + this.getClass().getName());
+
+        setupGame();
+
+        root = new GamePane(gameWindow.getWidth(),gameWindow.getHeight());
+
+        var challengePane = new StackPane();
+        challengePane.setMaxWidth(gameWindow.getWidth());
+        challengePane.setMaxHeight(gameWindow.getHeight());
+        challengePane.getStyleClass().add("menu-background");
+        root.getChildren().add(challengePane);
+
+        var mainPane = new BorderPane();
+        challengePane.getChildren().add(mainPane);
+
+        board = new GameBoard(game.getGrid(),gameWindow.getWidth()/2,gameWindow.getWidth()/2);
+        mainPane.setCenter(board);
+
+        var HBox = new HBox();
+        mainPane.setTop(HBox);
+        HBox.setAlignment(Pos.CENTER);
+        
+        //Handle block on gameboard grid being clicked
+        board.setOnBlockClick(this::blockClicked);
+
+        //handle when the gameboard is right clicked
+        board.setOnRightClicked(() -> {
+            logger.info("Right clicked to rotate");
+            game.rotateCurrentPieceRight();
+        });
+
+        //Create Score Text and bind to score property
+        var score = new Text();
+        score.textProperty().bind(Game.scoreProperty().asString());
+        
+        //Adding score and heading to scene
+        score.getStyleClass().add("score");
+        var scoreText = new Text("Score");
+        scoreText.getStyleClass().add("heading");
+        var scoreBox = new VBox();
+        scoreBox.getChildren().add(scoreText);
+        scoreBox.getChildren().add(score);
+        scoreBox.setAlignment(Pos.CENTER);
+        HBox.getChildren().add(scoreBox);
+        var title = new Text("Challenge Mode");
+        title.getStyleClass().add("title");
+        HBox.getChildren().add(title);
+
+        //Create Level Text and bind to level property
+        var level = new Text();
+        level.textProperty().bind(Game.levelProperty().asString());
+        level.getStyleClass().add("level");
+
+        //Create Lives Text and bind to lives property
+        var lives = new Text();
+        lives.textProperty().bind(Game.livesProperty().asString());
+        
+        //Adding level text to scene
+        lives.getStyleClass().add("lives");
+        var livesText = new Text("Lives");
+        livesText.getStyleClass().add("heading");
+        var livesBox = new VBox();
+        livesBox.getChildren().add(livesText);
+        livesBox.getChildren().add(lives);
+        livesBox.setAlignment(Pos.CENTER);
+        HBox.getChildren().add(livesBox);
+
+        //Create Multiplier Text and bind to multiplier property
+        var multiplier = new Text();
+        multiplier.textProperty().bind(Game.multiplierProperty().asString());
+        multiplier.getStyleClass().add("level");
+
+        //Styling header HBox
+        HBox.setSpacing(150);
+
+        //Creating PieceBoard to show current piece
+        var newPiece = new PieceBoard(100, 100);
+
+        //Creating a PieceBoard to show the following piece
+        var followingPieceBoard = new PieceBoard(50,50);
+
+        // Add a NextPieceListener
+        game.setNextPieceListener((nextPiece, followingPiece) -> {
+            newPiece.displayPiece(nextPiece);
+            followingPieceBoard.displayPiece(followingPiece);
+        });
+
+        // Handle when the piece board is left clicked
+        newPiece.setLeftClickedListener(() -> {
+            logger.info("Rotating Piece");
+            game.rotateCurrentPieceRight();
+            Multimedia.playAudio("rotate.wav");
+        });
+
+        //Handle when the second piece board is left clicked
+        followingPieceBoard.setLeftClickedListener(() -> {
+            logger.info("Swapping pieces");
+            game.swapCurrentPiece();
+            Multimedia.playAudio("rotate.wav");
+        });
+        
+        //Adding Level and Multiplier to side bar
+        var sideBox = new VBox();
+        var levelText = new Text("Level");
+        levelText.getStyleClass().add("heading");
+        var multiplierText = new Text("Multiplier");
+        multiplierText.getStyleClass().add("heading");
+        sideBox.getChildren().addAll(levelText, level, multiplierText, multiplier, newPiece, followingPieceBoard);
+        sideBox.setAlignment(Pos.CENTER);
+        mainPane.setRight(sideBox);
+
+        //Start background music playing on a loop
+        Multimedia.playGameBackground();
+    }
+
+
+    /**
+     * Handle when a block is clicked
+     * @param gameBlock the Game Block that was clicked
+     */
+    private void blockClicked(GameBlock gameBlock) {
+        Boolean piecePlayed = game.blockClicked(gameBlock);
+
+        //Check if the blocked clicked method return true or false and play sounds accordingly.
+        if(piecePlayed){
+            Multimedia.playAudio("place.wav");
+        }else{
+            Multimedia.playAudio("fail.wav");
+        }
+    }
+
+    /**
+     * Setup the game object and model
+     */
+    public void setupGame() {
+        logger.info("Starting a new challenge");
+
+        //Start new game
+        game = new Game(5, 5);
+    }
+
+    /**
+     * Initialise the scene and start the game
+     */
+    @Override
+    public void initialise() {
+        logger.info("Initialising Challenge");
+        game.start();
+    }
+
+    @Override
+    public void keyPressed(KeyCode key) {
+        switch(key){
+            case ESCAPE -> {
+                logger.info("Returning to main menu");
+                gameWindow.startMenu();
+            } 
+
+            case LEFT -> {
+                if(x > 0){
+                    logger.info("Moving placement left by 1");
+                    x = (x - 1) % game.getCols();
+                }
+            }
+
+            case RIGHT -> {
+                if(x < 5){
+                    logger.info("Moving placement right by 1");
+                    x = (x + 1) % game.getCols();
+                }
+            }
+
+            case DOWN -> {
+                if(y < 5){
+                    logger.info("Moving placemnt down by 1");
+                    y = (y + 1) % game.getRows();
+                }
+            }
+
+            case UP -> {
+                if(y > 0){
+                    logger.info("Moving placement up by 1");
+                    y = (y - 1) % game.getRows();
+                }
+            }
+
+            case ENTER,X -> {
+                logger.info("Playing Piece");
+                game.blockClicked(board.getBlock(x % 5, y % 5));
+            }
+
+            case SPACE,R -> {
+                logger.info("Swap upcoming pieces");
+                game.swapCurrentPiece();
+                Multimedia.playAudio("rotate.wav");
+            }
+
+            case Q,Z,OPEN_BRACKET -> {
+                logger.info("Rotating current piece left");
+                game.rotateCurrentPieceLeft();
+                Multimedia.playAudio("rotate.wav");
+            }
+
+            case E,C,CLOSE_BRACKET -> {
+                logger.info("Rotating current piece right");
+                game.rotateCurrentPieceRight();
+                Multimedia.playAudio("rotate.wav");
+            }
+        }
+    }
+}
