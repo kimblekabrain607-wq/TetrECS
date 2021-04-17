@@ -3,6 +3,7 @@ package uk.ac.soton.comp1206.scene;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

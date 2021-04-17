@@ -1,5 +1,6 @@
 package uk.ac.soton.comp1206.scene;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
@@ -74,6 +75,7 @@ public class ChallengeScene extends BaseScene {
         root.getChildren().add(challengePane);
 
         var mainPane = new BorderPane();
+        mainPane.setPadding(new Insets(15, 20, 10, 10));
         challengePane.getChildren().add(mainPane);
 
         board = new GameBoard(game.getGrid(),gameWindow.getWidth()/2,gameWindow.getWidth()/2);
@@ -162,7 +164,7 @@ public class ChallengeScene extends BaseScene {
             Multimedia.playAudio("rotate.wav");
         });
         
-        //Adding Level and Multiplier to side bar
+        //Adding Level, Multiplier and both piece boards to side bar
         var sideBox = new VBox();
         var levelText = new Text("Level");
         levelText.getStyleClass().add("heading");

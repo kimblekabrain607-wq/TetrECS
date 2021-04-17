@@ -1,11 +1,10 @@
 package uk.ac.soton.comp1206.scene;
 
-import javafx.animation.KeyFrame;
 import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
-import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -53,6 +52,7 @@ public class MenuScene extends BaseScene {
         root.getChildren().add(menuPane);
 
         var mainPane = new BorderPane();
+        mainPane.setPadding(new Insets(15, 20, 10, 10));
         menuPane.getChildren().add(mainPane);
 
         //Game Title Image
