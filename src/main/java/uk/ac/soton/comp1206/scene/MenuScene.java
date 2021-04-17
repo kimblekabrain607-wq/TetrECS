@@ -61,9 +61,9 @@ public class MenuScene extends BaseScene {
         titleView.setFitWidth(600);
         titleView.setPreserveRatio(true);
         mainPane.setCenter(titleView);
-        // var sequence = new SequentialTransition(doRotateRight(titleView), doRotateLeft(titleView));
-        // sequence.setCycleCount(Transition.INDEFINITE);
-        // sequence.play();
+        var sequence = new SequentialTransition(doRotateRight(titleView), doRotateLeft(titleView));
+        sequence.setCycleCount(Transition.INDEFINITE);
+        sequence.play();
 
         //For now, let us just add a button that starts the game. I'm sure you'll do something way better.
         var button = new Button("Single Player");
@@ -135,8 +135,8 @@ public class MenuScene extends BaseScene {
      */
     public Transition doRotateRight(ImageView imageView){
         RotateTransition rotater = new RotateTransition(new Duration(2000), imageView);
-        rotater.setFromAngle(0);
-        rotater.setToAngle(20);
+        rotater.setFromAngle(-15);
+        rotater.setToAngle(15);
         return rotater;
     }
 
@@ -145,8 +145,8 @@ public class MenuScene extends BaseScene {
      */
     public Transition doRotateLeft(ImageView imageView){
         RotateTransition rotater = new RotateTransition(new Duration(2000), imageView);
-        rotater.setFromAngle(0);
-        rotater.setToAngle(-20);
+        rotater.setFromAngle(15);
+        rotater.setToAngle(-15);
         return rotater;
     }
 }
