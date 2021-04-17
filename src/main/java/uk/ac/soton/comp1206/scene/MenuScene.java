@@ -72,10 +72,14 @@ public class MenuScene extends BaseScene {
         //Add an Instructions button that takes you to the instructions scene
         var instructionsButton = new Button("Instructions");
         instructionsButton.getStyleClass().add("menuItem");
+
+        //Add an Exit butto that quits the game
+        var exitButton = new Button("Exit");
+        exitButton.getStyleClass().add("menuItem");
         
         //Make Vbox for button list and add to bottom of BorderPane
         var buttons = new VBox();
-        buttons.getChildren().addAll(button, instructionsButton);
+        buttons.getChildren().addAll(button, instructionsButton, exitButton);
         buttons.setAlignment(Pos.CENTER);
         mainPane.setBottom(buttons);
         
@@ -85,6 +89,9 @@ public class MenuScene extends BaseScene {
 
         //Bind the instructions button action to the startInstructions method in the menu
         instructionsButton.setOnAction(this::startInstructions);
+
+        //Bind the exit button to the close the game
+        exitButton.setOnAction(this::exitGame);
 
         //Start background music playing on a loop
         Multimedia.playMenuBackground();
@@ -118,6 +125,14 @@ public class MenuScene extends BaseScene {
      */
     private void startInstructions(ActionEvent event){
         gameWindow.startInstructions();
+    }
+
+    /**
+     * Handle when the Exit button is pressed
+     * @param event event
+     */
+    private void exitGame(ActionEvent event){
+        System.exit(0);
     }
 
     @Override
