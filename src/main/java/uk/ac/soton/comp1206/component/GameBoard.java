@@ -135,7 +135,7 @@ public class GameBoard extends GridPane {
             }
         }
 
-        //Add a listener for the right clicked.
+        //Add a listener for the right clicked or left clicks on the game board
         setOnMouseClicked((e) -> {
             logger.info("Right click on GameBoard");
             MouseButton mouseRight = e.getButton();
@@ -144,14 +144,9 @@ public class GameBoard extends GridPane {
                     rightClickedListener.rightClicked();
                 }
             }
-        });
-
-        //Add a listener for the left click on a pieceboard
-        setOnMouseClicked((e) -> {
-            logger.info("Left clicked on Piece Board");
-            MouseButton mouseLeft = e.getButton();
-            if(mouseLeft == MouseButton.PRIMARY){
+            if(mouseRight == MouseButton.PRIMARY){
                 if(leftClickedListener != null){
+                    logger.info("Left clicked on Piece Board");
                     leftClickedListener.leftClicked();
                 }
             }

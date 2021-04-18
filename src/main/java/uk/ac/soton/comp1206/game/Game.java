@@ -11,6 +11,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import uk.ac.soton.comp1206.component.GameBlock;
 import uk.ac.soton.comp1206.event.NextPieceListener;
+import uk.ac.soton.comp1206.ui.GameWindow;
 
 /**
  * The Game class handles the main logic, state and properties of the TetrECS game. Methods to manipulate the game state
@@ -309,9 +310,10 @@ public class Game {
             nextPiece();
             setMultiplierProperty(1);
             resetTimer();
+            logger.info("New timer is " + getTimerDelay());
         }else{
             logger.info("Game has ended, all lives were lost.");
-
+            
         }
     }
 
