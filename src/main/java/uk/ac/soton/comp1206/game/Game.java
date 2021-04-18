@@ -1,6 +1,8 @@
 package uk.ac.soton.comp1206.game;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,6 +70,9 @@ public class Game {
      */
     private NextPieceListener nextPieceListener;
 
+    //Timer
+    private Timer gameTimer;
+
     /**
      * Create a new game with the specified rows and columns. Creates a corresponding grid model.
      * @param cols number of columns
@@ -103,6 +108,11 @@ public class Game {
 
         //Listen to the current piece and following piece
         nextPieceListener.nextPiece(currentPiece, followingPiece);
+
+        //Add a timer
+        gameTimer = new Timer();
+        resetTimer();
+                
     }
 
     /**
@@ -119,6 +129,8 @@ public class Game {
             grid.playPiece(currentPiece, x, y);
             //Initialise and set following piece
             afterPiece();
+            //Reset timer
+            resetTimer();
             //Return true if the piece is played
             return true;
         }else{
@@ -273,6 +285,54 @@ public class Game {
      */
     public void score(int lines, int blocks){
         setScoreProperty(scoreProperty.get() + (lines * blocks * 10 * multiplierProperty.get()));
+    }
+
+    /**
+     * Method to get the timer Delay 
+     */
+    public int getTimerDelay(){
+        int timer = 12000 - (500 * getLevelProperty());
+        if(timer < 2500){
+            return 2500;
+        }else{
+            return timer;
+        }
+    } 
+
+    /**
+     * Method for the Timer to call and reset the timer.
+     */
+    public void gameLoop(){
+        if(getLivesProperty() > 0){
+            logger.info("The timer ran out and you lost a life.");
+            livesProperty.subtract(1);
+            nextPiece();
+            setMultiplierProperty(1);
+            resetTimer();
+        }else{
+            logger.info("Game has ended, all lives were lost.");
+
+        }
+    }
+
+    /**
+     * Method to reset timer
+     */
+    public void resetTimer(){
+        //Create new task for timer to run
+        TimerTask task = new TimerTask(){
+            @Override
+            public void run(){
+                gameLoop();
+            }
+        };
+        //Delete old timer
+        if(gameTimer != null){
+            gameTimer.cancel();
+        }
+        //Make and run new timer
+        gameTimer = new Timer();
+        gameTimer.schedule(task, getTimerDelay(), getTimerDelay());
     }
 
     /**
