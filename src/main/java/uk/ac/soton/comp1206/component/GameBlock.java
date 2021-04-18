@@ -171,6 +171,10 @@ public class GameBlock extends Canvas {
         gc.strokeRect(0,0,width,height);
     }
 
+    public void exitHOver(){
+        paint();
+    }
+
     /**
      * Get the column of this block
      * @return column number

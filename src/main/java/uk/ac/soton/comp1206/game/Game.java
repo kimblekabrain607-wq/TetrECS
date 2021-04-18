@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import uk.ac.soton.comp1206.component.GameBlock;
+import uk.ac.soton.comp1206.event.GameLoopListener;
 import uk.ac.soton.comp1206.event.NextPieceListener;
 
 /**
@@ -66,11 +67,16 @@ public class Game {
     private static IntegerProperty multiplierProperty = new SimpleIntegerProperty(1);
 
     /**
-     * A NextPieceListener field to keep call when the next piece changes.
+     * A NextPieceListener field to keep track of when the next piece changes.
      */
     private NextPieceListener nextPieceListener;
 
-    //Timer
+    /**
+     * A GameLoopListner field to update the UI with the timer length.
+     */
+    private GameLoopListener gameLoopListener;
+
+    //The Timer
     private Timer gameTimer;
 
     /**
@@ -112,7 +118,6 @@ public class Game {
         //Add a timer
         gameTimer = new Timer();
         resetTimer();
-                
     }
 
     /**
@@ -297,7 +302,7 @@ public class Game {
         }else{
             return timer;
         }
-    } 
+    }
 
     /**
      * Method for the Timer to call and reset the timer.
@@ -305,7 +310,7 @@ public class Game {
     public void gameLoop(){
         if(getLivesProperty() > 0){
             logger.info("The timer ran out and you lost a life.");
-            livesProperty.subtract(1);
+            setLivesProperty(getLivesProperty() - 1);
             nextPiece();
             setMultiplierProperty(1);
             resetTimer();
@@ -333,7 +338,9 @@ public class Game {
         }
         //Make and run new timer
         gameTimer = new Timer();
-        gameTimer.schedule(task, getTimerDelay(), getTimerDelay());
+        gameTimer.schedule(task, getTimerDelay());
+        gameLoopListener.gameLoop(getTimerDelay());
+        logger.info("Timer is " + getTimerDelay());
     }
 
     /**
@@ -341,6 +348,13 @@ public class Game {
      */
     public void setNextPieceListener(NextPieceListener listener){
         this.nextPieceListener = listener;
+    }
+
+    /**
+     * A method to set the GameLoopListener
+     */
+    public void setGameLoopListener(GameLoopListener listener){
+        this.gameLoopListener = listener;
     }
 
     /**
