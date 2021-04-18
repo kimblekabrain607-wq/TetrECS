@@ -142,8 +142,12 @@ public class GameBlock extends Canvas {
         //Clear
         gc.clearRect(0,0,width,height);
 
+        var stops1 = new Stop[] { new Stop(0, (Color) colour), new Stop(1, Color.WHITE)};
+
+        var lg1 = new LinearGradient(0, 1, 1, 0, true, CycleMethod.NO_CYCLE, stops1);
+        
         //Colour fill
-        gc.setFill(colour);
+        gc.setFill(lg1);
         gc.fillRect(0,0, width, height);
 
         //Border
