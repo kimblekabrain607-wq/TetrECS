@@ -255,17 +255,6 @@ public class ChallengeScene extends BaseScene {
     }
 
     /**
-     * Transition method to translate the rectangle to 0
-     */
-    public Transition doScale(long duration){
-        ScaleTransition scaleTransition = new ScaleTransition(new Duration(duration), timerRectangle);
-        scaleTransition.setFromX(1);
-        scaleTransition.setToX(0);
-        scaleTransition.setCycleCount(2);
-        return scaleTransition;
-    }
-
-    /**
      * Transition method to change the colour of the rectangle
      */
     public Transition doFill(long duration){
