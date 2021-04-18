@@ -134,8 +134,8 @@ public class MenuScene extends BaseScene {
     public void keyPressed(KeyCode key) {
         switch(key){
             case ESCAPE -> {
-                logger.info("Returning to main menu");
-                gameWindow.startMenu();
+                logger.info("Shutting down game.");
+                System.exit(0);
             }
         } 
     }
