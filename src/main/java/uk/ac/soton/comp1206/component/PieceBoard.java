@@ -1,7 +1,5 @@
 package uk.ac.soton.comp1206.component;
 
-import uk.ac.soton.comp1206.component.GameBoard;
-import uk.ac.soton.comp1206.event.LeftClickedListener;
 import uk.ac.soton.comp1206.game.GamePiece;
 
 public class PieceBoard extends GameBoard{
