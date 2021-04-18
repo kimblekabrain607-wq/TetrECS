@@ -1,9 +1,0 @@
-{
-    "maven.terminal.favorites": [
-        {
-            "alias": "full-build-without-tests",
-            "command": "clean install javafx:run -DskipTests"
-        }
-    ],
-    "maven.view": "hierarchical"
-}
