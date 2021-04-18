@@ -102,12 +102,6 @@ public class MenuScene extends BaseScene {
      */
     @Override
     public void initialise() {
-        //Handle escape key pressed to exit game
-        scene.setOnKeyPressed((e) -> {
-            if(e.getCode() != KeyCode.ESCAPE) return;
-            logger.info("Shutting down.");
-            System.exit(0);
-        });
     }
 
     /**
