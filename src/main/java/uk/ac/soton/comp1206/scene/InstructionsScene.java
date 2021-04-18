@@ -14,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import uk.ac.soton.comp1206.Utility.Multimedia;
 import uk.ac.soton.comp1206.component.PieceBoard;
 import uk.ac.soton.comp1206.game.GamePiece;
 import uk.ac.soton.comp1206.ui.GamePane;
@@ -130,6 +131,9 @@ public class InstructionsScene extends BaseScene {
         gridPieces.setHgap(20);
         gridPieces.setVgap(20);
         mainPane.setAlignment(gridPieces, Pos.CENTER);
+
+        //Start menu music
+        Multimedia.playMenuBackground();
     }
 
     /**
@@ -149,6 +153,7 @@ public class InstructionsScene extends BaseScene {
         switch(key){
             case ESCAPE -> {
                 logger.info("Returning to main menu");
+                Multimedia.stopMusic();
                 gameWindow.startMenu();
             }
         } 

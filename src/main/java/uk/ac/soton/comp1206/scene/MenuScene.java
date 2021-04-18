@@ -118,6 +118,7 @@ public class MenuScene extends BaseScene {
      * @param event event
      */
     private void startInstructions(ActionEvent event){
+        Multimedia.stopMusic();
         gameWindow.startInstructions();
     }
 
