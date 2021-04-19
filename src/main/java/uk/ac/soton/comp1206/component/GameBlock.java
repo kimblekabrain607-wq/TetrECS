@@ -64,6 +64,11 @@ public class GameBlock extends Canvas {
     private final IntegerProperty value = new SimpleIntegerProperty(0);
 
     /**
+     * boolean to keep track of whether a circle should be drawn on the block
+     */
+    private boolean displayCircle;
+
+    /**
      * Create a new single Game Block
      * @param gameBoard the board this block belongs to
      * @param x the column the block exists in
@@ -153,6 +158,10 @@ public class GameBlock extends Canvas {
         //Border
         gc.setStroke(Color.GREY);
         gc.strokeRect(0,0,width,height);
+
+        if(displayCircle){
+            paintCircle();
+        }
     }
 
     /**
@@ -161,22 +170,31 @@ public class GameBlock extends Canvas {
     public void paintHoverColour(){
         var gc = getGraphicsContext2D();
 
-        //Clear
-        gc.clearRect(0, 0, width, height);
-
-        ////Colour fill
-        gc.setGlobalAlpha(0.45);
-        gc.setFill(Color.GREY);
+        //Colour fill
+        Color color = new Color(0.2, 0.2, 0.2, 0.5);
+        gc.setFill(color);
         gc.fillRect(0,0, width, height);
-        gc.setGlobalAlpha(1);
 
         //Border
         gc.setStroke(Color.GREY);
         gc.strokeRect(0,0,width,height);
     }
 
-    public void exitHOver(){
+    public void exitHover(){
         paint();
+    }
+
+    /**
+     * paint circle over the centre of the piece board
+     */
+    public void paintCircle(){
+        logger.info("Painting Circle on PieceBoard");
+        var gc = getGraphicsContext2D();
+
+        //Create Colour
+        Color color = new Color(0.2, 0.2, 0.2, 0.5);
+        gc.setFill(color);
+        gc.fillOval(width/4, height/4, width/2, height/2);
     }
 
     /**
@@ -209,6 +227,13 @@ public class GameBlock extends Canvas {
      */
     public void bind(ObservableValue<? extends Number> input) {
         value.bind(input);
+    }
+
+    /**
+     * Setter to set the boolean display circle to true.
+     */
+    public void showCircle(){
+        this.displayCircle = true;
     }
 
 }

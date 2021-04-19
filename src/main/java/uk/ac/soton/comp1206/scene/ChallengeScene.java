@@ -4,7 +4,6 @@ import javafx.animation.FillTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.geometry.Insets;
@@ -36,7 +35,7 @@ import uk.ac.soton.comp1206.ui.GameWindow;
  */
 public class ChallengeScene extends BaseScene {
 
-    private static final Logger logger = LogManager.getLogger(MenuScene.class);
+    private static final Logger logger = LogManager.getLogger(ChallengeScene.class);
     protected Game game;
     protected GameBoard board;
 
@@ -58,12 +57,12 @@ public class ChallengeScene extends BaseScene {
     /**
      * X coordinate where the piece will be played
      */
-    private int x;
+    private int x = 0;
 
     /**
      * Y coordinate where the piece will be played
      */
-    private int y;
+    private int y = 0;
 
     /**
      * Long to keep track of the current timer length
@@ -127,8 +126,8 @@ public class ChallengeScene extends BaseScene {
 
         //handle when the gameboard is right clicked
         board.setOnRightClicked(() -> {
-            logger.info("Right clicked to rotate");
             game.rotateCurrentPieceRight();
+            Multimedia.playAudio("rotate.wav");
         });
 
         //Create Score Text and bind to score property
@@ -176,10 +175,10 @@ public class ChallengeScene extends BaseScene {
         HBox.setSpacing(150);
 
         //Creating PieceBoard to show current piece
-        var newPiece = new PieceBoard(100, 100);
+        var newPiece = new PieceBoard(100, 100, true);
 
         //Creating a PieceBoard to show the following piece
-        var followingPieceBoard = new PieceBoard(50,50);
+        var followingPieceBoard = new PieceBoard(50,50, false);
 
         // Add a NextPieceListener
         game.setNextPieceListener((nextPiece, followingPiece) -> {
@@ -288,7 +287,7 @@ public class ChallengeScene extends BaseScene {
                 logger.info("Returning to main menu");
                 Multimedia.stopMusic();
                 gameWindow.startMenu();
-            } 
+            }
 
             case LEFT -> {
                 if(x > 0){

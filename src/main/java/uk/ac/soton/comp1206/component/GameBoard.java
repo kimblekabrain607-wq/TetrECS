@@ -180,6 +180,16 @@ public class GameBoard extends GridPane {
                 blockClicked(e, block);
             }
         });
+
+        //React to mouse hover
+        block.setOnMouseEntered((e) -> {
+            block.paintHoverColour();
+        });
+
+        //Reset block after leaving 
+        block.setOnMouseExited((e) -> {
+            block.exitHover();
+        });
         
         return block;
     }

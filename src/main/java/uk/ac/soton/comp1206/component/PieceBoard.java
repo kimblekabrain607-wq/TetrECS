@@ -1,11 +1,21 @@
 package uk.ac.soton.comp1206.component;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import uk.ac.soton.comp1206.game.GamePiece;
 
 public class PieceBoard extends GameBoard{
+
+    //Boolean to keep track of whether a cirle is on the piece board.
+    protected boolean displayCircle;
+
+    //Logger
+    private static final Logger logger = LogManager.getLogger(PieceBoard.class);
     
-    public PieceBoard(double width, double height){
+    public PieceBoard(double width, double height, boolean displayCircle){
         super(3, 3, width, height);
+        this.displayCircle = displayCircle;
         build();
     }
 
@@ -47,5 +57,26 @@ public class PieceBoard extends GameBoard{
                 }
             }
         }
+    }
+
+    /**
+     * Override the inherited createBlock method
+     * @param x column
+     * @param y row
+     */
+    protected GameBlock createBlock(int x, int y){
+        //Create the block using the inherited method
+        GameBlock block = super.createBlock(x, y);
+        //Check if piece board should have a circle
+        if(displayCircle && x == 1 && y == 1){
+            block.showCircle();
+        }
+        //Override mouse entered event from GameBoard
+        block.setOnMouseEntered((e) -> {});
+
+        //Override mouse exited event from GameBoard 
+        block.setOnMouseExited((e) -> {});
+
+        return block;
     }
 }
