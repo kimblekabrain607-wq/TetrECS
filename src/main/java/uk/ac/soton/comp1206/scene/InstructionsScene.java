@@ -140,19 +140,13 @@ public class InstructionsScene extends BaseScene {
      * Initialise the instructions page
      */
     public void initialise(){
-        //Listen for escape key pressed to return to the menu scene.
-        scene.setOnKeyPressed((e) -> {
-            if(e.getCode() != KeyCode.ESCAPE) return;
-            logger.info("Returning to Menu");
-            gameWindow.startMenu();
-        });
     }
 
     @Override
     public void keyPressed(KeyCode key) {
         switch(key){
             case ESCAPE -> {
-                logger.info("Returning to main menu");
+                logger.info("Returning to Menu");
                 Multimedia.stopMusic();
                 gameWindow.startMenu();
             }
