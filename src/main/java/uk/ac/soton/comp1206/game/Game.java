@@ -9,11 +9,13 @@ import java.util.TimerTask;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import uk.ac.soton.comp1206.component.GameBlock;
 import uk.ac.soton.comp1206.component.GameBlockCoordinate;
 import uk.ac.soton.comp1206.event.GameLoopListener;
+import uk.ac.soton.comp1206.event.GameOverListener;
 import uk.ac.soton.comp1206.event.LineClearedListener;
 import uk.ac.soton.comp1206.event.NextPieceListener;
 
@@ -84,6 +86,11 @@ public class Game {
      * A LineClearedListener field to keep track of when a line is cleared.
      */
     private LineClearedListener lineClearedListener;
+
+    /**
+     * A GameOverListener field to keep track of when the game ends.
+     */
+    private GameOverListener gameOverListener;
 
     //The Timer
     private Timer gameTimer;
@@ -332,7 +339,8 @@ public class Game {
             logger.info("New timer is " + getTimerDelay());
         }else{
             logger.info("Game has ended, all lives were lost.");
-            
+            Boolean isOver = true;
+            gameOverListener.gameOver(isOver);
         }
     }
 
@@ -344,7 +352,7 @@ public class Game {
         TimerTask task = new TimerTask(){
             @Override
             public void run(){
-                gameLoop();
+                Platform.runLater(() -> gameLoop());
             }
         };
         //Delete old timer
@@ -377,6 +385,13 @@ public class Game {
      */
     public void setLineClearedListener(LineClearedListener listener){
         this.lineClearedListener = listener;
+    }
+
+    /**
+     * A method to set the GameOverListener
+     */
+    public void setGameOverListener(GameOverListener listener){
+        this.gameOverListener = listener;
     }
 
     /**

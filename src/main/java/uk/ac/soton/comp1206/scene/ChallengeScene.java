@@ -24,6 +24,7 @@ import uk.ac.soton.comp1206.component.GameBlock;
 import uk.ac.soton.comp1206.component.GameBoard;
 import uk.ac.soton.comp1206.component.PieceBoard;
 import uk.ac.soton.comp1206.event.GameLoopListener;
+import uk.ac.soton.comp1206.event.GameOverListener;
 import uk.ac.soton.comp1206.event.LineClearedListener;
 import uk.ac.soton.comp1206.event.NextPieceListener;
 import uk.ac.soton.comp1206.game.Game;
@@ -59,6 +60,11 @@ public class ChallengeScene extends BaseScene {
      * LineClearedListener to listen to when a line of blocks are cleared.
      */
     private LineClearedListener lineClearedListener;
+
+    /**
+     * GameOverListener to listen to the whether the game is over.
+     */
+    private GameOverListener gameOverListener;
 
     /**
      * X coordinate where the piece will be played
@@ -229,6 +235,11 @@ public class ChallengeScene extends BaseScene {
             logger.info("Swapping pieces");
             game.swapCurrentPiece();
             Multimedia.playAudio("rotate.wav");
+        });
+
+        //Handle when the all lives are lost and the game is over.
+        game.setGameOverListener((gameOver) -> {
+            gameWindow.startScores();
         });
         
         //Adding Level, Multiplier and both piece boards to side bar

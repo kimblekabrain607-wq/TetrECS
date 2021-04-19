@@ -86,9 +86,12 @@ public class GameWindow {
     /**
      * Display the Instructions Scene
      */
-    public void startInstructions(){
-        loadScene(new InstructionsScene(this));
-    }
+    public void startInstructions() { loadScene(new InstructionsScene(this)); }
+
+    /**
+     * Display the scores scene
+     */
+    public void startScores() { loadScene(new ScoresScene(this)); }
 
     /**
      * Setup the default settings for the stage itself (the window), such as the title and minimum width and height.
