@@ -1,6 +1,8 @@
 package uk.ac.soton.comp1206.game;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,7 +12,9 @@ import org.apache.logging.log4j.Logger;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import uk.ac.soton.comp1206.component.GameBlock;
+import uk.ac.soton.comp1206.component.GameBlockCoordinate;
 import uk.ac.soton.comp1206.event.GameLoopListener;
+import uk.ac.soton.comp1206.event.LineClearedListener;
 import uk.ac.soton.comp1206.event.NextPieceListener;
 
 /**
@@ -76,6 +80,11 @@ public class Game {
      */
     private GameLoopListener gameLoopListener;
 
+    /**
+     * A LineClearedListener field to keep track of when a line is cleared.
+     */
+    private LineClearedListener lineClearedListener;
+
     //The Timer
     private Timer gameTimer;
 
@@ -133,9 +142,11 @@ public class Game {
             //Put current piece on the grid with the centre on the block clicked
             grid.playPiece(currentPiece, x, y);
             //Initialise and set following piece
-            afterPiece();
+            Set<GameBlockCoordinate> coordinates = afterPiece();
             //Reset timer
             resetTimer();
+            //Listen to the lines being cleared
+            lineClearedListener.lineCleared(coordinates);
             //Return true if the piece is played
             return true;
         }else{
@@ -201,9 +212,10 @@ public class Game {
     /**
      * Remove any full vertical/horizontal lines that were made during a play
      */
-    public void afterPiece(){
+    public Set<GameBlockCoordinate> afterPiece(){
         int[] columns = new int[5];
         int[] rowsNum = new int[5];
+        Set<GameBlockCoordinate> coordinates = new HashSet<GameBlockCoordinate>();
         // Loops through columns and increments if there is an empty block in a column
         for(int i = 0; i<cols; i++){
             for(int j = 0; j<rows; j++){
@@ -229,6 +241,7 @@ public class Game {
                 linesCol++;
                 for(int r = 0; r<rows; r++){
                     grid.set(i, r, 0);
+                    coordinates.add(new GameBlockCoordinate(i, r));
                 }
             }
         }
@@ -240,6 +253,7 @@ public class Game {
                 linesRow++;
                 for(int c = 0; c<cols; c++){
                     grid.set(c, i, 0);
+                    coordinates.add(new GameBlockCoordinate(c, i));
                 }
             }
         }
@@ -265,6 +279,7 @@ public class Game {
             int levelNum = (int)Math.floor(getScoreProperty()/ 1000);
             setLevelProperty(levelNum);
         }
+        return coordinates;
     }
 
     /**
@@ -355,6 +370,13 @@ public class Game {
      */
     public void setGameLoopListener(GameLoopListener listener){
         this.gameLoopListener = listener;
+    }
+
+    /**
+     * A method to set the lineClearedListener
+     */
+    public void setLineClearedListener(LineClearedListener listener){
+        this.lineClearedListener = listener;
     }
 
     /**

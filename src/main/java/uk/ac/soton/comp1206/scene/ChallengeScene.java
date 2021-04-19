@@ -24,6 +24,7 @@ import uk.ac.soton.comp1206.component.GameBlock;
 import uk.ac.soton.comp1206.component.GameBoard;
 import uk.ac.soton.comp1206.component.PieceBoard;
 import uk.ac.soton.comp1206.event.GameLoopListener;
+import uk.ac.soton.comp1206.event.LineClearedListener;
 import uk.ac.soton.comp1206.event.NextPieceListener;
 import uk.ac.soton.comp1206.game.Game;
 import uk.ac.soton.comp1206.game.GamePiece;
@@ -53,6 +54,11 @@ public class ChallengeScene extends BaseScene {
      * GameLoopListener to listen to the game and update the timer UI
      */
     private GameLoopListener gameLoopListener;
+
+    /**
+     * LineClearedListener to listen to when a line of blocks are cleared.
+     */
+    private LineClearedListener lineClearedListener;
 
     /**
      * X coordinate where the piece will be played
@@ -184,6 +190,11 @@ public class ChallengeScene extends BaseScene {
         game.setNextPieceListener((nextPiece, followingPiece) -> {
             newPiece.displayPiece(nextPiece);
             followingPieceBoard.displayPiece(followingPiece);
+        });
+
+        //Add a LineClearedListener
+        game.setLineClearedListener((coordinates) -> {
+            board.fadeOut(coordinates);
         });
 
         //Initialise rectangle timer

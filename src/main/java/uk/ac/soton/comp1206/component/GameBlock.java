@@ -1,5 +1,6 @@
 package uk.ac.soton.comp1206.component;
 
+import javafx.animation.AnimationTimer;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableValue;
@@ -162,6 +163,34 @@ public class GameBlock extends Canvas {
         if(displayCircle){
             paintCircle();
         }
+    }
+
+    /**
+     * Fade out method which paints the blocks empty and then fills them with semi transparent fill which gradually dissapears
+     */
+    public void fadeOut(){
+        paintEmpty();
+        var gc = getGraphicsContext2D();
+        AnimationTimer timer = new AnimationTimer(){
+            double opacity = 0.7;
+            @Override
+            public void handle(long now){
+                paint();
+
+                gc.save();
+                gc.setGlobalAlpha(opacity);
+                gc.setFill(Color.WHITE);
+                gc.fillRect(0, 0, width, height);
+                gc.restore();
+
+                if(opacity <= 0){
+                    stop();
+                }else{
+                    opacity -= 0.025;
+                }
+            }
+        };
+        timer.start();
     }
 
     /**

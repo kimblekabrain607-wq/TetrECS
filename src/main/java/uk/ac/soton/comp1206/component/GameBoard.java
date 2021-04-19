@@ -3,6 +3,9 @@ package uk.ac.soton.comp1206.component;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+
+import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.event.BlockClickedListener;
@@ -192,6 +195,16 @@ public class GameBoard extends GridPane {
         });
         
         return block;
+    }
+
+    /**
+     * FadeOut method to take set of
+     * @param gameBlockCoordinates and triggers the fadeOut method on each of them.
+     */
+    public void fadeOut(Set<GameBlockCoordinate> blockCoordinates){
+        for(GameBlockCoordinate coordinate : blockCoordinates){
+            getBlock(coordinate.getX(), coordinate.getY()).fadeOut();
+        }
     }
 
     /**
