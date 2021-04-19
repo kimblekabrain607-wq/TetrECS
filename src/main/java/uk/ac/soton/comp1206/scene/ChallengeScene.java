@@ -124,7 +124,7 @@ public class ChallengeScene extends BaseScene {
         //Handle block on gameboard grid being clicked
         board.setOnBlockClick(this::blockClicked);
 
-        //handle when the gameboard is right clicked
+        //Handle when the gameboard is right clicked
         board.setOnRightClicked(() -> {
             game.rotateCurrentPieceRight();
             Multimedia.playAudio("rotate.wav");
