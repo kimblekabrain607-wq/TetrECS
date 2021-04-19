@@ -289,31 +289,39 @@ public class ChallengeScene extends BaseScene {
                 gameWindow.startMenu();
             }
 
-            case LEFT -> {
+            case LEFT,A -> {
                 if(x > 0){
+                    board.getBlock(x, y).paint();
                     logger.info("Moving placement left by 1");
                     x = (x - 1) % game.getCols();
+                    board.getBlock(x, y).paintHoverColour();
                 }
             }
 
-            case RIGHT -> {
+            case RIGHT,D -> {
                 if(x < 5){
+                    board.getBlock(x, y).paint();
                     logger.info("Moving placement right by 1");
                     x = (x + 1) % game.getCols();
+                    board.getBlock(x, y).paintHoverColour();
                 }
             }
 
-            case DOWN -> {
+            case DOWN,S -> {
                 if(y < 5){
+                    board.getBlock(x, y).paint();
                     logger.info("Moving placemnt down by 1");
                     y = (y + 1) % game.getRows();
+                    board.getBlock(x, y).paintHoverColour();
                 }
             }
 
-            case UP -> {
+            case UP,W -> {
                 if(y > 0){
+                    board.getBlock(x, y).paint();
                     logger.info("Moving placement up by 1");
                     y = (y - 1) % game.getRows();
+                    board.getBlock(x, y).paintHoverColour();
                 }
             }
 
