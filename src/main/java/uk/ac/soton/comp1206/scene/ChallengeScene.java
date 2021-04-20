@@ -239,7 +239,7 @@ public class ChallengeScene extends BaseScene {
 
         //Handle when the all lives are lost and the game is over.
         game.setGameOverListener((gameOver) -> {
-            gameWindow.startScores();
+            gameWindow.startScores(game);
         });
         
         //Adding Level, Multiplier and both piece boards to side bar

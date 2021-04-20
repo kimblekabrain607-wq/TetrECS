@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.App;
+import uk.ac.soton.comp1206.game.Game;
 import uk.ac.soton.comp1206.network.Communicator;
 import uk.ac.soton.comp1206.scene.*;
 
@@ -91,7 +92,7 @@ public class GameWindow {
     /**
      * Display the scores scene
      */
-    public void startScores() { loadScene(new ScoresScene(this)); }
+    public void startScores(Game game) { loadScene(new ScoresScene(this, game)); }
 
     /**
      * Setup the default settings for the stage itself (the window), such as the title and minimum width and height.
