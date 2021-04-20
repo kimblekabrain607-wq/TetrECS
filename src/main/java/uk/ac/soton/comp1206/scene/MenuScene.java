@@ -52,13 +52,13 @@ public class MenuScene extends BaseScene {
         root.getChildren().add(menuPane);
 
         var mainPane = new BorderPane();
-        mainPane.setPadding(new Insets(15, 20, 10, 10));
+        mainPane.setPadding(new Insets(10, 10, 10, 10));
         menuPane.getChildren().add(mainPane);
 
         //Game Title Image
         var title = new Image(MenuScene.class.getResource("/images/TetrECS.png").toExternalForm());
         var titleView = new ImageView(title);
-        titleView.setFitWidth(600);
+        titleView.setFitWidth(gameWindow.getWidth() * 0.8);
         titleView.setPreserveRatio(true);
         mainPane.setCenter(titleView);
         var sequence = new SequentialTransition(doRotateRight(titleView), doRotateLeft(titleView));
@@ -145,8 +145,8 @@ public class MenuScene extends BaseScene {
      */
     public Transition doRotateRight(ImageView imageView){
         RotateTransition rotater = new RotateTransition(new Duration(2000), imageView);
-        rotater.setFromAngle(-15);
-        rotater.setToAngle(15);
+        rotater.setFromAngle(-10);
+        rotater.setToAngle(10);
         return rotater;
     }
 
@@ -155,8 +155,8 @@ public class MenuScene extends BaseScene {
      */
     public Transition doRotateLeft(ImageView imageView){
         RotateTransition rotater = new RotateTransition(new Duration(2000), imageView);
-        rotater.setFromAngle(15);
-        rotater.setToAngle(-15);
+        rotater.setFromAngle(10);
+        rotater.setToAngle(-10);
         return rotater;
     }
 }
