@@ -123,7 +123,7 @@ public class ChallengeScene extends BaseScene {
         root.getChildren().add(challengePane);
 
         var mainPane = new BorderPane();
-        mainPane.setPadding(new Insets(10, 30, 10, 10));
+        //mainPane.setPadding(new Insets(10, 10, 0, 0));
         challengePane.getChildren().add(mainPane);
 
         board = new GameBoard(game.getGrid(),gameWindow.getWidth()/2,gameWindow.getWidth()/2);
@@ -204,7 +204,7 @@ public class ChallengeScene extends BaseScene {
         });
 
         //Initialise rectangle timer
-        timerRectangle = new Rectangle(gameWindow.getWidth()-40, 30, Color.GREEN);
+        timerRectangle = new Rectangle(gameWindow.getWidth(), 30, Color.GREEN);
 
         //Add a GameLoopListener
         game.setGameLoopListener((duration) -> {
