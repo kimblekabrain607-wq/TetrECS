@@ -200,7 +200,7 @@ public class GameBlock extends Canvas {
         var gc = getGraphicsContext2D();
 
         //Colour fill
-        Color color = new Color(0.2, 0.2, 0.2, 0.5);
+        Color color = new Color(1, 1, 1, 0.5);
         gc.setFill(color);
         gc.fillRect(0,0, width, height);
 
