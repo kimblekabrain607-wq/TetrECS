@@ -38,11 +38,11 @@
 }
 
 .menuItem:hover {
-    -fx-fill: yellow;
+    -fx-text-fill: yellow;
 }
 
 .menuItem.selected {
-    -fx-fill: yellow;
+    -fx-text-fill: yellow;
 }
 
 .bigtitle {
