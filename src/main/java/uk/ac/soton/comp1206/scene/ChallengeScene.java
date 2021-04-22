@@ -123,7 +123,7 @@ public class ChallengeScene extends BaseScene {
         root.getChildren().add(challengePane);
 
         var mainPane = new BorderPane();
-        //mainPane.setPadding(new Insets(10, 10, 0, 0));
+        mainPane.setPadding(new Insets(10, 10, 0, 0));
         challengePane.getChildren().add(mainPane);
 
         board = new GameBoard(game.getGrid(),gameWindow.getWidth()/2,gameWindow.getWidth()/2);
@@ -243,7 +243,7 @@ public class ChallengeScene extends BaseScene {
         });
         
         //Adding Level, Multiplier and both piece boards to side bar
-        var sideBox = new VBox();
+        var sideBox = new VBox(15);
         var levelText = new Text("Level");
         levelText.getStyleClass().add("heading");
         var multiplierText = new Text("Multiplier");
