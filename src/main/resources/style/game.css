@@ -126,7 +126,10 @@
 }
 
 .scorelist {
+    -fx-fill: white;
+    -fx-text-fill: white;
     -fx-font-size: 20px;
+    -fx-border-colour: black;
     -fx-font-family: 'Orbitron';
 }
 

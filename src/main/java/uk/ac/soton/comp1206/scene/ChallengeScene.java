@@ -6,6 +6,8 @@ import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.input.KeyCode;
@@ -15,6 +17,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import javafx.util.Duration;
+import javafx.util.Pair;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.Comparator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -96,6 +107,9 @@ public class ChallengeScene extends BaseScene {
      */
     Timeline timeline;
 
+    //Highscore on the scene
+    private Text highScore;
+
     /**
      * Create a new Single Player challenge scene
      * @param gameWindow the Game Window
@@ -144,7 +158,7 @@ public class ChallengeScene extends BaseScene {
 
         //Create Score Text and bind to score property
         var score = new Text();
-        score.textProperty().bind(Game.scoreProperty().asString());
+        score.textProperty().bind(game.scoreProperty().asString());
         
         //Adding score and heading to scene
         score.getStyleClass().add("score");
@@ -161,12 +175,12 @@ public class ChallengeScene extends BaseScene {
 
         //Create Level Text and bind to level property
         var level = new Text();
-        level.textProperty().bind(Game.levelProperty().asString());
+        level.textProperty().bind(game.levelProperty().asString());
         level.getStyleClass().add("level");
 
         //Create Lives Text and bind to lives property
         var lives = new Text();
-        lives.textProperty().bind(Game.livesProperty().asString());
+        lives.textProperty().bind(game.livesProperty().asString());
         
         //Adding level text to scene
         lives.getStyleClass().add("lives");
@@ -180,7 +194,7 @@ public class ChallengeScene extends BaseScene {
 
         //Create Multiplier Text and bind to multiplier property
         var multiplier = new Text();
-        multiplier.textProperty().bind(Game.multiplierProperty().asString());
+        multiplier.textProperty().bind(game.multiplierProperty().asString());
         multiplier.getStyleClass().add("level");
 
         //Styling header HBox
@@ -201,6 +215,7 @@ public class ChallengeScene extends BaseScene {
         //Add a LineClearedListener
         game.setLineClearedListener((coordinates) -> {
             board.fadeOut(coordinates);
+            Multimedia.playAudio("clear.wav");
         });
 
         //Initialise rectangle timer
@@ -241,6 +256,12 @@ public class ChallengeScene extends BaseScene {
         game.setGameOverListener((gameOver) -> {
             gameWindow.startScores(game);
         });
+
+        //Add Highscore to the challenge scene.
+        var highScoreText = new Text("HighScore");
+        highScoreText.getStyleClass().add("heading");
+        highScore = new Text(getHighScore().toString());
+        highScore.getStyleClass().add("hiscore");
         
         //Adding Level, Multiplier and both piece boards to side bar
         var sideBox = new VBox(15);
@@ -248,7 +269,7 @@ public class ChallengeScene extends BaseScene {
         levelText.getStyleClass().add("heading");
         var multiplierText = new Text("Multiplier");
         multiplierText.getStyleClass().add("heading");
-        sideBox.getChildren().addAll(levelText, level, multiplierText, multiplier, newPiece, followingPieceBoard);
+        sideBox.getChildren().addAll(highScoreText, highScore, levelText, level, multiplierText, multiplier, newPiece, followingPieceBoard);
         sideBox.setAlignment(Pos.CENTER);
         mainPane.setRight(sideBox);
 
@@ -267,12 +288,58 @@ public class ChallengeScene extends BaseScene {
     private void blockClicked(GameBlock gameBlock) {
         Boolean piecePlayed = game.blockClicked(gameBlock);
 
+        //Check if the players current score is higher than the Local highscore.
+        if(game.getScoreProperty() > Integer.parseInt(highScore.getText())){
+            highScore.setText(game.getScoreProperty().toString());
+        }
+
         //Check if the blocked clicked method return true or false and play sounds accordingly.
         if(piecePlayed){
             Multimedia.playAudio("place.wav");
         }else{
             Multimedia.playAudio("fail.wav");
         }
+    }
+
+    /**
+     * Method to get the local Highscore to show on the scene.
+     */
+    public Integer getHighScore(){
+        File file = new File("scores.txt");
+        SimpleListProperty<Pair<String, Integer>> localScores = new SimpleListProperty<Pair<String, Integer>>(FXCollections.observableArrayList());
+        if(!file.exists()){
+            try {
+                Writer writer = new FileWriter(file);
+                for(int i = 1000; i <= 10000; i += 1000){
+                    writer.write("Oli:" + i + "\n");
+                }
+                writer.close();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        try {
+            Reader reader = new FileReader(file);
+            BufferedReader bf = new BufferedReader(reader);
+            String line = bf.readLine();
+            while(line != null){
+                String[] split = line.split(":");
+                localScores.add(new Pair<String,Integer>(split[0], Integer.valueOf(split[1])));
+                line = bf.readLine();
+            }
+            bf.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        localScores.sort(new Comparator<Pair<String,Integer>>(){
+
+            @Override
+            public int compare(Pair<String,Integer> a, Pair<String,Integer> b){
+                return b.getValue() - a.getValue();
+            }
+        
+        });
+        return localScores.get(0).getValue();
     }
 
     /**
