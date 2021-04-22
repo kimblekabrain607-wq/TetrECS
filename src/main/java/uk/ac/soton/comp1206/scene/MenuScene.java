@@ -93,6 +93,14 @@ public class MenuScene extends BaseScene {
         //Bind the exit button to the close the game
         exitButton.setOnAction(this::exitGame);
 
+        //Change style of buttons on hover
+        button.setOnMouseEntered((e) -> {
+            button.getStyleClass().add("menuItem:hover");
+        });
+        button.setOnMouseExited((e) -> {
+            button.getStyleClass().add("menuItem");
+        });
+
         //Start background music playing on a loop
         Multimedia.playMenuBackground();
     }
