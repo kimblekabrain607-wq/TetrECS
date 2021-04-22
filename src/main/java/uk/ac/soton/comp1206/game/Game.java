@@ -55,22 +55,22 @@ public class Game {
     /**
      * Bindable property for the score.
      */
-    private static IntegerProperty scoreProperty = new SimpleIntegerProperty(0);
+    private IntegerProperty scoreProperty = new SimpleIntegerProperty(0);
 
     /**
      * Bindable property for the level.
      */
-    private static IntegerProperty levelProperty = new SimpleIntegerProperty(0);
+    private IntegerProperty levelProperty = new SimpleIntegerProperty(0);
 
     /**
      * Bindable property for the lives.
      */
-    private static IntegerProperty livesProperty = new SimpleIntegerProperty(3);
+    private IntegerProperty livesProperty = new SimpleIntegerProperty(3);
 
     /**
      * Bindable property for the multiplier.
      */
-    private static IntegerProperty multiplierProperty = new SimpleIntegerProperty(1);
+    private IntegerProperty multiplierProperty = new SimpleIntegerProperty(1);
 
     /**
      * A NextPieceListener field to keep track of when the next piece changes.
@@ -398,7 +398,7 @@ public class Game {
      * Accessor methods for Score Property
      * @return IntegerProperty
      */
-    public static IntegerProperty scoreProperty(){
+    public IntegerProperty scoreProperty(){
         return scoreProperty;
     }
 
@@ -406,7 +406,7 @@ public class Game {
      * Setter method for Score Property
      * @param score
      */
-    public static void setScoreProperty(Integer score){
+    public void setScoreProperty(Integer score){
         scoreProperty().set(score);
     }
 
@@ -414,7 +414,7 @@ public class Game {
      * Getter method for Score Property
      * @return Integer
      */
-    public static Integer getScoreProperty(){
+    public Integer getScoreProperty(){
         return scoreProperty().get();
     }
 
@@ -422,7 +422,7 @@ public class Game {
      * Accessor method for Level Property
      * @return IntegerProperty
      */
-    public static IntegerProperty levelProperty(){
+    public IntegerProperty levelProperty(){
         return levelProperty;
     }
 
@@ -430,7 +430,7 @@ public class Game {
      * Setter method for level Property
      * @param level
      */
-    public static void setLevelProperty(Integer level){
+    public void setLevelProperty(Integer level){
         levelProperty().set(level);
     }
 
@@ -438,7 +438,7 @@ public class Game {
      * Getter method for level property
      * @return Integer
      */
-    public static Integer getLevelProperty(){
+    public Integer getLevelProperty(){
         return levelProperty().get();
     }
 
@@ -446,7 +446,7 @@ public class Game {
      * Accessor method for Lives Property
      * @return Integer Property
      */
-    public static IntegerProperty livesProperty(){
+    public IntegerProperty livesProperty(){
         return livesProperty;
     }
 
@@ -454,7 +454,7 @@ public class Game {
      * Setter method for lives property
      * @param lives
      */
-    public static void setLivesProperty(Integer lives){
+    public void setLivesProperty(Integer lives){
         livesProperty().set(lives);
     }
 
@@ -462,7 +462,7 @@ public class Game {
      * Getter method for Lives Property
      * @return Integer
      */
-    public static Integer getLivesProperty(){
+    public Integer getLivesProperty(){
         return livesProperty().get();
     }
 
@@ -470,7 +470,7 @@ public class Game {
      * Accessor method for Multiplier Property
      * @return IntegerProperty
      */
-    public static IntegerProperty multiplierProperty(){
+    public IntegerProperty multiplierProperty(){
         return multiplierProperty;
     }
 
@@ -478,7 +478,7 @@ public class Game {
      * Setter method for Multiplier Property
      * @param multi
      */
-    public static void setMultiplierProperty(Integer multi){
+    public void setMultiplierProperty(Integer multi){
         multiplierProperty().set(multi);
     }
 
@@ -486,7 +486,7 @@ public class Game {
      * Getter method for Multiplier Property
      * @return Integer
      */
-    public static Integer getMultiplierProperty(){
+    public Integer getMultiplierProperty(){
         return multiplierProperty().get();
     }
 }
