@@ -24,7 +24,7 @@ public class PieceBoard extends GameBoard{
         int[][] blocks = piece.getBlocks();
         // create array of array of x and y coordinates
         int[][] surrounding = new int[9][2];
-        // Manually create array of 3*3 array of coordinates around given x and y
+        // Manually create array of 3*3 array of coordinates
         surrounding[0][0] = 0;
         surrounding[0][1] = 0;
         surrounding[1][0] = 0;

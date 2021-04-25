@@ -127,6 +127,7 @@ public class ScoresScene extends BaseScene{
         //Create Textfield
         var textField = new TextField();
     
+        //Checks if the player beat a local or online score
         if(localScores.getSize() < 10 || game.getScoreProperty() > localScores.get(9).getValue() || remoteScores.getSize() < 10 || game.getScoreProperty() > remoteScores.get(9).getValue()){
             mainPane.setCenter(textField);
         }else{
