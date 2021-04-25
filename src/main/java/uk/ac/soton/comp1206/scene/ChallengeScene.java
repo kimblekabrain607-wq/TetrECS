@@ -116,7 +116,7 @@ public class ChallengeScene extends BaseScene {
      */
     public ChallengeScene(GameWindow gameWindow) {
         super(gameWindow);
-        logger.info("Creating Menu Scene");
+        logger.info("Creating Challenge Scene");
     }
 
     /**
