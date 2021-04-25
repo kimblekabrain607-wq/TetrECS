@@ -309,6 +309,7 @@ public class ChallengeScene extends BaseScene {
     public Integer getHighScore(){
         File file = new File("scores.txt");
         SimpleListProperty<Pair<String, Integer>> localScores = new SimpleListProperty<Pair<String, Integer>>(FXCollections.observableArrayList());
+        //Checking if the file already exists and making a default file
         if(!file.exists()){
             try {
                 Writer writer = new FileWriter(file);
@@ -320,6 +321,7 @@ public class ChallengeScene extends BaseScene {
                 e.printStackTrace();
             }
         }
+        //Reading the lines from the file and splitting on the "\n" and ":"
         try {
             Reader reader = new FileReader(file);
             BufferedReader bf = new BufferedReader(reader);
@@ -333,6 +335,7 @@ public class ChallengeScene extends BaseScene {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //Comparator to sort the scores
         localScores.sort(new Comparator<Pair<String,Integer>>(){
 
             @Override

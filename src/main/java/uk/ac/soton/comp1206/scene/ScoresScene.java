@@ -230,7 +230,10 @@ public class ScoresScene extends BaseScene{
         });
     }
 
-
+    /**
+     * Method which recieves message from the communicator and writes the recieved scores to the remoteScores list
+     * @param message
+     */
     public void loadOnlineScores(String message){
         if(!message.startsWith("HISCORES")){ return;}
         message = message.replace("HISCORES ", "");
@@ -242,6 +245,7 @@ public class ScoresScene extends BaseScene{
     }
 
     public void writeOnlineScore(Pair<String,Integer> score){
+        //Sending a message to the communicator with the name and score of the player in the right format.
         gameWindow.getCommunicator().send("HISCORE " + score.getKey() + ":" + score.getValue().toString());
     }
 
