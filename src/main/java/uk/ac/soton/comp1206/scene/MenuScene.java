@@ -45,12 +45,14 @@ public class MenuScene extends BaseScene {
 
         root = new GamePane(gameWindow.getWidth(),gameWindow.getHeight());
 
+        //Styling StackPane and adding to the root
         var menuPane = new StackPane();
         menuPane.setMaxWidth(gameWindow.getWidth());
         menuPane.setMaxHeight(gameWindow.getHeight());
         menuPane.getStyleClass().add("menu-background");
         root.getChildren().add(menuPane);
 
+        //Styling BorderPane and adding it to the stackPane
         var mainPane = new BorderPane();
         mainPane.setPadding(new Insets(10, 10, 10, 10));
         menuPane.getChildren().add(mainPane);
@@ -73,13 +75,17 @@ public class MenuScene extends BaseScene {
         var instructionsButton = new Button("Instructions");
         instructionsButton.getStyleClass().add("menuItem");
 
-        //Add an Exit butto that quits the game
+        //Add an Exit button that quits the game
         var exitButton = new Button("Exit");
         exitButton.getStyleClass().add("menuItem");
+
+        //Add a Multiplayer button that starts the Lobby Scene
+        var mulitplayerButton = new Button("Multiplayer");
+        mulitplayerButton.getStyleClass().add("menuItem");
         
         //Make Vbox for button list and add to bottom of BorderPane
         var buttons = new VBox();
-        buttons.getChildren().addAll(button, instructionsButton, exitButton);
+        buttons.getChildren().addAll(button, instructionsButton, mulitplayerButton, exitButton);
         buttons.setAlignment(Pos.CENTER);
         mainPane.setBottom(buttons);
         
@@ -89,6 +95,9 @@ public class MenuScene extends BaseScene {
 
         //Bind the instructions button action to the startInstructions method in the menu
         instructionsButton.setOnAction(this::startInstructions);
+
+        //Bind the multiplayer button action to the startLobby method in menu
+        mulitplayerButton.setOnAction(this::startLobby);
 
         //Bind the exit button to the close the game
         exitButton.setOnAction(this::exitGame);
@@ -131,21 +140,20 @@ public class MenuScene extends BaseScene {
     }
 
     /**
+     * Handle when the Multiplayer button is pressed
+     * @param event
+     */
+    private void startLobby(ActionEvent event){
+        Multimedia.stopMusic();
+        gameWindow.startLobby();
+    }
+
+    /**
      * Handle when the Exit button is pressed
      * @param event event
      */
     private void exitGame(ActionEvent event){
         System.exit(0);
-    }
-
-    @Override
-    public void keyPressed(KeyCode key) {
-        switch(key){
-            case ESCAPE -> {
-                logger.info("Shutting down game.");
-                System.exit(0);
-            }
-        } 
     }
 
     /**
@@ -166,5 +174,15 @@ public class MenuScene extends BaseScene {
         rotater.setFromAngle(10);
         rotater.setToAngle(-10);
         return rotater;
+    }
+
+    @Override
+    public void keyPressed(KeyCode key) {
+        switch(key){
+            case ESCAPE -> {
+                logger.info("Shutting down game.");
+                System.exit(0);
+            }
+        } 
     }
 }

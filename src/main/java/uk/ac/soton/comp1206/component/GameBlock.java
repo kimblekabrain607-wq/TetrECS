@@ -169,8 +169,10 @@ public class GameBlock extends Canvas {
      * Fade out method which paints the blocks empty and then fills them with semi transparent fill which gradually dissapears
      */
     public void fadeOut(){
+        //paints the block empty
         paintEmpty();
         var gc = getGraphicsContext2D();
+        
         AnimationTimer timer = new AnimationTimer(){
             double opacity = 0.7;
             @Override

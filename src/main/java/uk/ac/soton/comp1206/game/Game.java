@@ -202,7 +202,6 @@ public class Game {
     public void nextPiece(){
         currentPiece = GamePiece.createPiece(followingPiece.getValue() - 1);
         followingPiece = spawnPiece();
-        System.out.println(currentPiece.toString());
         nextPieceListener.nextPiece(currentPiece, followingPiece);
     }
 
@@ -267,7 +266,7 @@ public class Game {
         logger.info("Lines cleared: " + linesCol);
         logger.info("Rows cleared: " + linesRow);
         int numBlocks = (linesCol * 5) + (linesRow * (5-linesCol));
-        logger.info("Number of blocks cleared: "+numBlocks);
+        logger.info("Number of blocks cleared: " + numBlocks);
         int totalLines = linesCol + linesRow;
         logger.info("Total lines cleared: " + totalLines);
         if(totalLines > 0){

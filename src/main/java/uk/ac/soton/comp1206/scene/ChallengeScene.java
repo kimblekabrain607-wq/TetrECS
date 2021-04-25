@@ -130,12 +130,14 @@ public class ChallengeScene extends BaseScene {
 
         root = new GamePane(gameWindow.getWidth(),gameWindow.getHeight());
 
+        //Styling StackPane and adding to the root
         var challengePane = new StackPane();
         challengePane.setMaxWidth(gameWindow.getWidth());
         challengePane.setMaxHeight(gameWindow.getHeight());
         challengePane.getStyleClass().add("menu-background");
         root.getChildren().add(challengePane);
 
+        //Styling BorderPane and adding it to the stackPane
         var mainPane = new BorderPane();
         mainPane.setPadding(new Insets(10, 10, 0, 0));
         challengePane.getChildren().add(mainPane);
@@ -380,36 +382,48 @@ public class ChallengeScene extends BaseScene {
 
             case LEFT,A -> {
                 if(x > 0){
+                    //Removing hover from last block
                     board.getBlock(x, y).paint();
                     logger.info("Moving placement left by 1");
+                    //Incrementing x value
                     x = (x - 1) % game.getCols();
+                    //Painting new block with hover colour
                     board.getBlock(x, y).paintHoverColour();
                 }
             }
 
             case RIGHT,D -> {
                 if(x < 5){
+                    //Removing hover from last block
                     board.getBlock(x, y).paint();
                     logger.info("Moving placement right by 1");
+                    //Incrementing x value
                     x = (x + 1) % game.getCols();
+                    //Painting new block with hover colour
                     board.getBlock(x, y).paintHoverColour();
                 }
             }
 
             case DOWN,S -> {
                 if(y < 5){
+                    //Removing hover from last block
                     board.getBlock(x, y).paint();
                     logger.info("Moving placemnt down by 1");
+                    //Incrementing y value
                     y = (y + 1) % game.getRows();
+                    //Painting new block with hover colour
                     board.getBlock(x, y).paintHoverColour();
                 }
             }
 
             case UP,W -> {
                 if(y > 0){
+                    //Removing hover from last block
                     board.getBlock(x, y).paint();
                     logger.info("Moving placement up by 1");
+                    //Incrementing y value
                     y = (y - 1) % game.getRows();
+                    //Painting new block with hover colour
                     board.getBlock(x, y).paintHoverColour();
                 }
             }

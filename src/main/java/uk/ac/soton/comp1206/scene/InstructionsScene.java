@@ -41,12 +41,14 @@ public class InstructionsScene extends BaseScene {
 
         root = new GamePane(gameWindow.getWidth(),gameWindow.getHeight());
 
+        //Styling StackPane and adding to the root
         var instructionsPane = new StackPane();
         instructionsPane.setMaxWidth(gameWindow.getWidth());
         instructionsPane.setMaxHeight(gameWindow.getHeight());
         instructionsPane.getStyleClass().add("instructions-background");
         root.getChildren().add(instructionsPane);
 
+        //Styling BorderPane and adding it to the stackPane
         var mainPane = new BorderPane();
         instructionsPane.getChildren().add(mainPane);
 
